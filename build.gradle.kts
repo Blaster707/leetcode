@@ -13,6 +13,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation("io.strikt:strikt-core:0.34.1")
+    testImplementation("io.strikt:strikt-jvm:0.34.1")
 }
 
 tasks.test {

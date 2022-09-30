@@ -1,6 +1,8 @@
 package blaster707.leetcode
 
 import org.junit.jupiter.api.Test
+import strikt.api.expectThat
+import strikt.assertions.*
 
 class Ex001TwoSum {
 
@@ -8,6 +10,11 @@ class Ex001TwoSum {
     fun solution(){
         assert(twoSum(nums = intArrayOf(3, 4, 6), target = 7).contentEquals(intArrayOf(0, 1)))
         assert(twoSum(nums = intArrayOf(1, 5, 6, 9, 12), target = 14).contentEquals(intArrayOf(1, 3)))
+
+        val actual = twoSum(nums = intArrayOf(3, 4, 6), target = 7)
+        expectThat(actual.toList()) {
+            containsExactly(0, 1)
+        }
     }
 
     fun twoSum(nums: IntArray, target: Int): IntArray {
