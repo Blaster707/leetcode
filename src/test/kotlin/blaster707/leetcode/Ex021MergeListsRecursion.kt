@@ -22,7 +22,20 @@ class Ex021MergeListsRecursion {
 
         fun mergeTwoLists(list1: ListNode?, list2: ListNode?): ListNode? {
 
-            var finalList = listMerger(list1, list2)
+            return when {
+                list1 == null -> list2
+                list2 == null -> list1
+                list1.`val` < list2.`val` -> ListNode(list1.`val`, mergeTwoLists(list1.next, list2))
+                else -> ListNode(list2.`val`, mergeTwoLists(list2.next, list1))
+            }
+        }
+    }
+}
+
+
+
+
+            /*var finalList = listMerger(list1, list2)
             return finalList
         }
 
@@ -52,4 +65,4 @@ class Ex021MergeListsRecursion {
             return newList
         }
     }
-}
+}*/
