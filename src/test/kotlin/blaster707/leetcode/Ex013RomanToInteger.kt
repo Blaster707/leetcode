@@ -14,42 +14,27 @@ class Ex013RomanToInteger {
         }
 
         fun romanToInt(s: String): Int {
+
             var indexInt = 0
             var totalInt = 0
-            while (s.length > indexInt+1) {
-                when(s[indexInt]) {
-                    'I' -> when(s[indexInt+1]) {
-                        'V' -> {indexInt += 2; totalInt += 4}
-                        'X' -> {indexInt += 2; totalInt += 9}
-                        else -> {indexInt++; totalInt++}
-                    }
-                    'V' -> {indexInt++; totalInt += 5}
-                    'X' -> when(s[indexInt+1]) {
-                        'L' -> {indexInt +=2; totalInt += 40}
-                        'C' -> {indexInt +=2; totalInt += 90}
-                        else -> {indexInt++; totalInt+= 10}
-                        }
-                    'L' -> {indexInt++; totalInt += 50}
-                    'C' -> when(s[indexInt+1]) {
-                        'D' -> {indexInt +=2; totalInt += 400}
-                        'M' -> {indexInt +=2; totalInt += 900}
-                        else -> {indexInt++; totalInt+= 100}
-                    }
-                    'D' -> {indexInt++; totalInt += 500}
-                    'M' -> {indexInt++; totalInt += 1000}
+            while (s.length > indexInt) {
+                when {
+                    s.startsWith("IV", indexInt) -> {indexInt += 2; totalInt += 4}
+                    s.startsWith("IX", indexInt) -> {indexInt += 2; totalInt += 9}
+                    s.startsWith("I", indexInt) -> {indexInt++; totalInt++}
+                    s.startsWith("V", indexInt) -> {indexInt++; totalInt += 5}
+                    s.startsWith("XL", indexInt) -> {indexInt +=2; totalInt += 40}
+                    s.startsWith("XC", indexInt) -> {indexInt +=2; totalInt += 90}
+                    s.startsWith("X", indexInt)-> {indexInt++; totalInt+= 10}
+                    s.startsWith("L", indexInt) -> {indexInt++; totalInt += 50}
+                    s.startsWith("CD", indexInt)-> {indexInt +=2; totalInt += 400}
+                    s.startsWith("CM", indexInt)-> {indexInt +=2; totalInt += 900}
+                    s.startsWith("C", indexInt)-> {indexInt++; totalInt+= 100}
+                    s.startsWith("D", indexInt) -> {indexInt++; totalInt += 500}
+                    s.startsWith("M") -> {indexInt++; totalInt += 1000}
                 }
             }
-            if(indexInt+1 == s.length)
-            return when(s[indexInt]) {
-                'I' -> totalInt+1
-                'V' -> totalInt+5
-                'X' -> totalInt+10
-                'L' -> totalInt+50
-                'C' -> totalInt+100
-                'D' -> totalInt+500
-                'M' -> totalInt+1000
-                else -> throw Exception("Invalid Entry")
-            } else return totalInt
+            return totalInt
         }
     }
 }
