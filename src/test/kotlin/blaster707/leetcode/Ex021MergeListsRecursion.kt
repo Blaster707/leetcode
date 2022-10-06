@@ -31,38 +31,3 @@ class Ex021MergeListsRecursion {
         }
     }
 }
-
-
-
-
-            /*var finalList = listMerger(list1, list2)
-            return finalList
-        }
-
-        fun listMerger(listX: ListNode?, listY: ListNode?): ListNode? {
-
-            if (listX == null) {
-                return listY
-            }
-            if (listY == null) {
-                return listX
-            }
-
-            var list1Var = listX
-            var list2Var = listY
-
-
-            var newList: ListNode
-
-            if (list1Var.`val` < list2Var.`val`) {
-                newList = ListNode(list1Var.`val`)
-                list1Var = list1Var.next
-            } else {
-                newList = ListNode(list2Var.`val`)
-                list2Var = list2Var.next
-            }
-                newList.next = listMerger(list1Var, list2Var)
-            return newList
-        }
-    }
-}*/
