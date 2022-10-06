@@ -14,46 +14,42 @@ class Ex013RomanToInteger {
         }
 
         fun romanToInt(s: String): Int {
-            return romanToIntCalculator(s).second
-        }
-
-        fun romanToIntCalculator(x: String?, totalInt: Int = 0): Pair<String?, Int> {
-            while(x != null && x.length > 0) {
-                return when (x.get(0)) {
-                    'I' -> {
-                        when {
-                            (x.length > 1 && x.get(1) == 'V') -> Pair(x.removeRange(0, 2), (4 + romanToIntCalculator(x.removeRange(0, 2), totalInt).second))
-                            (x.length > 1 && x.get(1) == 'X') -> Pair(x.removeRange(0, 2), (9 + romanToIntCalculator(x.removeRange(0, 2), totalInt).second))
-                            else -> Pair(x.removeRange(0, 1), (1 + romanToIntCalculator(x.removeRange(0, 1), totalInt).second))
-                        }
+            var indexInt = 0
+            var totalInt = 0
+            while (s.length > indexInt+1) {
+                when(s[indexInt]) {
+                    'I' -> when(s[indexInt+1]) {
+                        'V' -> {indexInt += 2; totalInt += 4}
+                        'X' -> {indexInt += 2; totalInt += 9}
+                        else -> {indexInt++; totalInt++}
                     }
-
-                    'V' -> Pair(x.removeRange(0, 1), (5 + romanToIntCalculator(x.removeRange(0, 1), totalInt).second))
-                    'X' -> {
-                        when {
-                            (x.length > 1 && x.get(1) == 'L') -> Pair(x.removeRange(0, 2), (40 + romanToIntCalculator(x.removeRange(0, 2), totalInt).second))
-                            (x.length > 1 && x.get(1) == 'C') -> Pair(x.removeRange(0, 2), (90 + romanToIntCalculator(x.removeRange(0, 2), totalInt).second))
-                            else -> Pair(x.removeRange(0, 1), (10 + romanToIntCalculator(x.removeRange(0, 1), totalInt).second))
+                    'V' -> {indexInt++; totalInt += 5}
+                    'X' -> when(s[indexInt+1]) {
+                        'L' -> {indexInt +=2; totalInt += 40}
+                        'C' -> {indexInt +=2; totalInt += 90}
+                        else -> {indexInt++; totalInt+= 10}
                         }
+                    'L' -> {indexInt++; totalInt += 50}
+                    'C' -> when(s[indexInt+1]) {
+                        'D' -> {indexInt +=2; totalInt += 400}
+                        'M' -> {indexInt +=2; totalInt += 900}
+                        else -> {indexInt++; totalInt+= 100}
                     }
-
-                    'L' -> Pair(x.removeRange(0, 1), (50 + romanToIntCalculator(x.removeRange(0, 1), totalInt).second))
-                    'C' -> {
-                        when {
-                            (x.length > 1 && x.get(1) == 'D') -> Pair(x.removeRange(0, 2), (400 + romanToIntCalculator(x.removeRange(0, 2), totalInt).second))
-                            (x.length > 1 && x.get(1) == 'M') -> Pair(x.removeRange(0, 2), (900 + romanToIntCalculator(x.removeRange(0, 2), totalInt).second))
-                            else -> Pair(x.removeRange(0, 1), (100 + romanToIntCalculator(x.removeRange(0, 1), totalInt).second))
-                        }
-                    }
-
-                    'D' -> Pair(x.removeRange(0, 1), (500 + romanToIntCalculator(x.removeRange(0, 1), totalInt).second))
-                    'M' -> Pair(x.removeRange(0, 1), (1000 + romanToIntCalculator(x.removeRange(0, 1), totalInt).second))
-                    else -> throw Exception("Invalid Entry")
+                    'D' -> {indexInt++; totalInt += 500}
+                    'M' -> {indexInt++; totalInt += 1000}
                 }
             }
-
-            return Pair(first = null, second = totalInt)
-
+            if(indexInt+1 == s.length)
+            return when(s[indexInt]) {
+                'I' -> totalInt+1
+                'V' -> totalInt+5
+                'X' -> totalInt+10
+                'L' -> totalInt+50
+                'C' -> totalInt+100
+                'D' -> totalInt+500
+                'M' -> totalInt+1000
+                else -> throw Exception("Invalid Entry")
+            } else return totalInt
         }
     }
 }
