@@ -18,32 +18,22 @@ class Ex058LengthofLastWord {
         }
 
         fun lengthOfLastWord(s: String): Int {
-            var lastSpaceIndex = s.lastIndexOf(char = ' ')
-            if (lastSpaceIndex == -1) {
-                return s.length
+            if (s.length == 2) {
+                return if((s[0] == ' ') || s[1] == ' ') {1}
+                else return 2
             }
-            if(lastSpaceIndex == 1 && s.length == 2) {return 1}
-            var indexInt = lastSpaceIndex
-            if(lastSpaceIndex+1 == s.length) {
-                indexInt--
-                while(s[indexInt] == ' ') {
+           var answer = 0
+            var indexInt = s.length-1
+            while ((s[indexInt]!=' ' && answer != 0) || (s[indexInt] == ' ' && answer == 0) || answer == 0)
+                if (s[indexInt] == ' ' && answer == 0) {
                     indexInt--
-                    lastSpaceIndex--
-                }
-                while(s[indexInt] != ' ' && indexInt != 0) {
-                    indexInt--
-                }
-
-                return if (indexInt == 0 && s[0] != ' ') {
-                    lastSpaceIndex
+                } else if (indexInt == 0 && s[indexInt]!=' ') {
+                    return answer+1
                 } else if (indexInt == 0) {
-                    lastSpaceIndex-1
-                } else {
-                    lastSpaceIndex - indexInt - 1
+                    answer++
                 }
-            } else {
-                return s.length-lastSpaceIndex-1
-            }
+                else {answer++; indexInt--}
+            return answer
         }
     }
 }
