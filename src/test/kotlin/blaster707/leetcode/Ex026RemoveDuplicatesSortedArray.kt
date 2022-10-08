@@ -16,14 +16,13 @@ class Ex026RemoveDuplicatesSortedArray {
             var indexInt = 0
             var indexReplacer = 1
             while (nums[nums.lastIndex] > nums[indexInt]) {
-                if (nums[indexInt] == nums[indexInt + 1]) {
+                while (nums[indexInt] == nums[indexInt + 1]) {
                     indexInt++
-                } else {
+                }
                     nums[indexReplacer] = nums[indexInt+1]
                     indexInt++
                     indexReplacer++
                 }
-            }
             return indexReplacer
         }
     }
