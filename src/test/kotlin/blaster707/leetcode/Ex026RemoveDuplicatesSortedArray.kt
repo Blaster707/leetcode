@@ -16,9 +16,7 @@ class Ex026RemoveDuplicatesSortedArray {
             var indexInt = 0
             var indexReplacer = 1
             while (nums[nums.lastIndex] > nums[indexInt]) {
-                while (nums[indexInt] == nums[indexInt + 1]) {
-                    indexInt++
-                }
+                    indexInt = nums.indexOfLast {it == nums[indexInt]}
                     nums[indexReplacer] = nums[indexInt+1]
                     indexInt++
                     indexReplacer++
