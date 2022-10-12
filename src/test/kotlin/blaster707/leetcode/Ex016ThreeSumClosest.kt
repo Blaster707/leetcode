@@ -16,7 +16,6 @@ class Ex016ThreeSumClosest {
         fun threeSumClosest(nums: IntArray, target: Int): Int {
 
             nums.sort()
-            var numsSize = nums.size
             var answer = nums[0] + nums[1] + nums[2]
 
 
@@ -24,7 +23,7 @@ class Ex016ThreeSumClosest {
                 var lowerPointer = x+1
                 var upperPointer = nums.size-1
                 while (lowerPointer<upperPointer) {
-                    var sum = nums[lowerPointer] + nums[upperPointer] + nums[x]
+                    val sum = nums[lowerPointer] + nums[upperPointer] + nums[x]
                     if (sum == target) {
                         return sum
                     }
@@ -33,7 +32,7 @@ class Ex016ThreeSumClosest {
                     } else {
                         lowerPointer++
                     }
-                    if (abs(sum-target) < abs(answer-target)) {
+                    if (abs(sum - target) < abs(answer - target)) {
                         answer = sum
                     }
 
