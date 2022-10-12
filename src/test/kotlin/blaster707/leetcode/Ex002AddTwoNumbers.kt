@@ -8,18 +8,14 @@ class Ex002AddTwoNumbers {
 
         @Test
         fun solution() {
-            //assert(addTwoNumbers(l1 = ListNode(2, ListNode(4, ListNode(3))), l2 = ListNode(5, ListNode(6, ListNode(4)))) == ListNode(7, ListNode(0, ListNode(8))))
+            assert(addTwoNumbers(l1 = ListNode(2, ListNode(4, ListNode(3))), l2 = ListNode(5, ListNode(6, ListNode(4)))) == ListNode(7, ListNode(0, ListNode(8))))
             assert(addTwoNumbers(l1 = ListNode(9, ListNode(1, ListNode(6))), l2 = ListNode(0)) == ListNode(9, ListNode(1, ListNode(6))))
         }
 
         fun addTwoNumbers(l1: ListNode?, l2: ListNode?, remainder: Int = 0): ListNode? {
 
-            var x: Int
-            var y: Int
-            if(l1 != null) {
-                x = l1.`val`+remainder
-            } else x = remainder
-            if(l2 != null) {y = l2.`val`+remainder} else y = remainder
+            val x: Int = (l1?.`val` ?: 0) + remainder
+            val y: Int = (l2?.`val` ?: 0) + remainder
 
             return when {
                 l1 == null && l2 == null -> when (remainder) {
