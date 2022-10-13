@@ -16,23 +16,9 @@ class Ex028FindFirstOccurrence {
         }
 
         fun strStr(haystack: String, needle: String): Int {
-            var haystackOffset = 0
-            var needlePointer = 0
-                for (i in haystack.indices) {
-                    for (x in needle.indices) {
-                        if (i+needlePointer == haystack.length) {return -1}
-                        if (haystack[x+haystackOffset] == needle[x]) {
-                            needlePointer++
-                            if (needlePointer == needle.length) {return i}
-                        } else {
-                            needlePointer = 0
-                            haystackOffset++
-                            break
-                        }
-                    }
-                }
 
-            return -1
+            return haystack.indexOf(needle)
+
         }
     }
 }
