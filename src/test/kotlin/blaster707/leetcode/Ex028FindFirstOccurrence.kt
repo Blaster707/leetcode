@@ -8,27 +8,22 @@ class Ex028FindFirstOccurrence {
 
         @Test
         fun solution() {
-           /* assert(strStr("sadbutsad", "sad") == 0)
+            assert(strStr("sadbutsad", "sad") == 0)
             assert(strStr("leetcode", "leeto") == -1)
             assert(strStr("hello", "ll") == 2)
-            assert(strStr("aaa", "aaaa") == -1)*/
+            assert(strStr("aaa", "aaaa") == -1)
             assert(strStr("mississippi", "issip") == 4)
         }
 
         fun strStr(haystack: String, needle: String): Int {
             var haystackOffset = 0
-            var haystackPointer: Int
             var needlePointer = 0
-            var answer: Int
                 for (i in haystack.indices) {
-                    answer = i
-                    haystackPointer = i
                     for (x in needle.indices) {
-                         if (haystackPointer == haystack.length) {return -1}
+                        if (i+needlePointer == haystack.length) {return -1}
                         if (haystack[x+haystackOffset] == needle[x]) {
                             needlePointer++
-                            haystackPointer++
-                            if (needlePointer == needle.length) {return answer}
+                            if (needlePointer == needle.length) {return i}
                         } else {
                             needlePointer = 0
                             haystackOffset++
