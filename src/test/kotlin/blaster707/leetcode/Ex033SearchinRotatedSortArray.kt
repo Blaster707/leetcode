@@ -18,19 +18,10 @@ class Ex033SearchinRotatedSortArray {
                     0
                 } else -1
             }
-            var numsMap: HashMap<Int, Int> = hashMapOf()
-            for (num in nums) {
-                numsMap[num] = nums.indexOf(num)
+            if (target in nums) {
+                return nums.indexOf(target)
             }
-            val numsSortedMap = numsMap.toSortedMap()
-            val numsSortedList = numsSortedMap.keys.toList()
-            val answerKey = numsSortedList.binarySearch(target)
-
-            return if(answerKey < 0) {
-                -1
-            } else {
-                numsSortedMap[numsSortedList[answerKey]]!!
-            }
+            else return -1
         }
 
     }
