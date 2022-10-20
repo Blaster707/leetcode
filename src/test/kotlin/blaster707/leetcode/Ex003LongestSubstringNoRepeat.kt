@@ -8,8 +8,8 @@ class Ex003LongestSubstringNoRepeat {
 
         @Test
         fun solution(){
-            //assert(lengthOfLongestSubstring("abcabcbb") == 3)
-            //assert(lengthOfLongestSubstring("pwwkew") == 3)
+            assert(lengthOfLongestSubstring("abcabcbb") == 3)
+            assert(lengthOfLongestSubstring("pwwkew") == 3)
             assert(lengthOfLongestSubstring("au") == 2)
 
         }
@@ -39,13 +39,13 @@ class Ex003LongestSubstringNoRepeat {
                     substringChecker(subS+s[charPointer], charPointer+1, x+1)
                 }
             }
-            while (s.length >= answer+stringStart) {
+            do {
                 if (complete) {
                     stringStart++
                     complete = false
                 }
                 substringChecker("", stringStart, 0)
-            }
+            } while (s.length >= answer+stringStart)
             return answer
         }
     }
