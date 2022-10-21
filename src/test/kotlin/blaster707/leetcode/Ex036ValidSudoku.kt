@@ -44,49 +44,66 @@ class Ex036ValidSudoku {
         }
 
         fun isValidSudoku(board: Array<CharArray>): Boolean {
-            for (arrayX in board) {
-                for (x in arrayX) {
-                    if (x != '.') {
-                        if (arrayX.count { it == x } > 1) {
-                            return false
+
+            var subBoxArray: Array<CharArray> = arrayOf(charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf())
+            var columnArray: Array<CharArray> = arrayOf(charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf())
+            var arraysToCheck: IntRange = 0..0
+            var columnsToCheck: IntRange = 0..0
+
+            for (subBoxNum in 0..8) {
+                var boxRow: Int = 0
+                var boxColumn: Int = 0
+                when (subBoxNum) {
+                    0 -> { boxRow = 1; boxColumn = 1 }
+                    1 -> { boxRow = 1; boxColumn = 2 }
+                    2 -> { boxRow = 1; boxColumn = 3 }
+                    3 -> { boxRow = 2; boxColumn = 1 }
+                    4 -> { boxRow = 2; boxColumn = 2 }
+                    5 -> { boxRow = 2; boxColumn = 3 }
+                    6 -> { boxRow = 3; boxColumn = 1 }
+                    7 -> { boxRow = 3; boxColumn = 2 }
+                    8 -> { boxRow = 3; boxColumn = 3 }
+                }
+                when (boxRow) {
+                    1 -> arraysToCheck = 0..2
+                    2 -> arraysToCheck = 3..5
+                    3 -> arraysToCheck = 6..8
+                }
+                when (boxColumn) {
+                    1 -> columnsToCheck = 0..2
+                    2 -> columnsToCheck = 3..5
+                    3 -> columnsToCheck = 6..8
+                }
+
+                for (i in arraysToCheck) {
+                    for (h in columnsToCheck) {
+                        if (board[i][h] != '.') {
+                            subBoxArray[subBoxNum] = subBoxArray[subBoxNum].plus(board[i][h])
                         }
-                        if (!sudokuSubBoxValidity(board, board.indexOf(arrayX), arrayX.indexOf(x), x)) {return false}
-                        if (!sudokuColumnsValidity(board, arrayX.indexOf(x), x)) {return false}
                     }
                 }
             }
-            return true
-        }
 
-        fun sudokuColumnsValidity(board: Array<CharArray>, xIndex: Int, x: Char): Boolean {
-            var columnToCheck: List<Char> = listOf()
-            for (arrayY in board) {
-                columnToCheck = columnToCheck.plus(arrayY[xIndex])
-            }
-            return columnToCheck.count{it == x} <= 1
-        }
-
-        fun sudokuSubBoxValidity(board: Array<CharArray>, arrayNum: Int, xIndex: Int, x: Char): Boolean {
-            var arraysToCheck: IntRange = 0..0
-            var columnsToCheck: IntRange = 0..0
-            when (arrayNum) {
-                in 0..2 -> arraysToCheck = 0..2
-                in 3..5 -> arraysToCheck = 3..5
-                in 6..8 -> arraysToCheck = 6..8
-            }
-            when (xIndex) {
-                in 0..2 -> columnsToCheck = 0..2
-                in 3..5 -> columnsToCheck = 3..5
-                in 6..8 -> columnsToCheck = 6..8
-
-            }
-            var boardToCheck: List<Char> = listOf()
-            for (i in arraysToCheck) {
-                for (h in columnsToCheck) {
-                    boardToCheck = boardToCheck.plus(board[i][h])
+            for (columnNum in 0..8) {
+                for (arrayC in board) {
+                    if (arrayC[columnNum] != '.') {
+                        columnArray[columnNum] = columnArray[columnNum].plus(arrayC[columnNum])
+                    }
                 }
             }
-                return boardToCheck.count { it == x } <= 1
+            for (arrayX in board) {
+
+                if (arrayX.distinct().count{it != '.'} != arrayX.size-arrayX.count { it == '.' }) {return false}
+            }
+
+            for (arrayY in columnArray) {
+                if (arrayY.distinct().count() != arrayY.size) {return false}
+            }
+
+            for (arrayZ in subBoxArray) {
+                if (arrayZ.distinct().count() != arrayZ.size) {return false}
+            }
+            return true
         }
     }
 }
