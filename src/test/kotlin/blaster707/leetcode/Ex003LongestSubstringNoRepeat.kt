@@ -19,34 +19,18 @@ class Ex003LongestSubstringNoRepeat {
             if (s.isEmpty()) {return 0}
             if (s.length == 1) {return 1}
             var answer = 0
-            var stringStart = 0
-            var complete = false
+            var subString = ""
 
-            fun substringChecker(subS: String, charPointer: Int, x: Int){
-                if (complete) {
-                    return
+            for (i in s) {
+                while (i in subString) {
+                    subString = subString.drop(1)
                 }
-                if (charPointer>s.length-1) {
-                    if (x>answer) {answer = x}
-                    complete = true
-                    return
-                }
-                if (s[charPointer] in subS) {
-                    if (x>answer) {answer = x}
-                    complete = true
-                    return
-                } else {
-                    substringChecker(subS+s[charPointer], charPointer+1, x+1)
-                }
+                subString = subString.plus(i)
+                if (subString.length > answer) {answer = subString.length}
             }
-            do {
-                if (complete) {
-                    stringStart++
-                    complete = false
-                }
-                substringChecker("", stringStart, 0)
-            } while (s.length >= answer+stringStart)
+
             return answer
+
         }
     }
 }
