@@ -12,15 +12,14 @@ class Ex008PalindromeInt {
 
     fun isPalindrome(x: Int): Boolean {
         val intString = x.toString()
-        val intChars = intString.toCharArray()
         var startChar = 0
-        var endChar = intChars.size-1
+        var endChar = intString.length-1
         var result = true
         while (startChar != endChar) {
             if (startChar>endChar) {
                 break
             } else {
-                if (intChars[startChar] == intChars[endChar]) {
+                if (intString[startChar] == intString[endChar]) {
                     startChar++
                     endChar--
                 } else {
