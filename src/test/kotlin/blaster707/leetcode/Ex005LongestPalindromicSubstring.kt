@@ -8,55 +8,29 @@ class Ex005LongestPalindromicSubstring {
 
         @Test
         fun solution() {
-            //assert(longestPalindrome("babad") == "bab")
+            assert(longestPalindrome("babad") == "bab")
             assert(longestPalindrome("aacabdkacaa") == "aca")
         }
 
         fun longestPalindrome(s: String): String {
-            var answer = "${s[0]}"
-            var xPointer = 0
-            for (x in s) {
-                var lastPointer = s.length-1
-                if (s.length-1-xPointer < answer.length) {return answer}
-                while (lastPointer != xPointer) {
-                    if (s[lastPointer] == x) {
-                        val subString = s.substring(xPointer, lastPointer+1)
-                        if (isPalindrome(subString)) {
-                            if (subString.length > answer.length) {
-                                answer = subString
-                                if (s.length-1-xPointer < answer.length) {return answer}
-                                continue
-                            }
-                        }
+            var answer = s[0].toString()
+            for (i in s.length downTo 1) {
+                for (x in 0..s.length-i) {
+                    if (isPalindrome(s, x, i)) {
+                        return s.substring(x, i+x)
                     }
-                    if (lastPointer-1 == xPointer) {xPointer++; continue}
-                    lastPointer -= 1
                 }
             }
             return answer
         }
 
-        fun isPalindrome(x: String): Boolean {
-
-
-            var startChar = 0
-            var endChar = x.length-1
-            var result = true
-            while (startChar != endChar) {
-                if (startChar>endChar) {
-                    break
-                } else {
-                    if (x[startChar] == x[endChar]) {
-                        startChar++
-                        endChar--
-                    } else {
-                        result = false
-                        startChar = endChar
-                    }
+        fun isPalindrome(s: String, x: Int, z: Int): Boolean {
+            for (i in 0..z/2) {
+                if (s[x+i] != s[x+z-1-i]) {
+                    return false
                 }
-
             }
-            return result
+            return true
         }
     }
 }
