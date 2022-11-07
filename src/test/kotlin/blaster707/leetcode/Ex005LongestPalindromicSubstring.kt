@@ -13,7 +13,6 @@ class Ex005LongestPalindromicSubstring {
         }
 
         fun longestPalindrome(s: String): String {
-            var answer = s[0].toString()
             for (i in s.length downTo 1) {
                 for (x in 0..s.length-i) {
                     if (isPalindrome(s, x, i)) {
@@ -21,7 +20,7 @@ class Ex005LongestPalindromicSubstring {
                     }
                 }
             }
-            return answer
+            return s[0].toString()
         }
 
         fun isPalindrome(s: String, x: Int, z: Int): Boolean {
