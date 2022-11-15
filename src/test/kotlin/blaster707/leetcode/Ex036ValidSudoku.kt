@@ -63,59 +63,25 @@ class Ex036ValidSudoku {
 
         fun buildSubBox(board: Array<CharArray>, subBoxNum: Int): List<Char> {
             val subBoxList = mutableListOf<Char>()
-            var arraysToCheck: IntRange = 0..0
-            var columnsToCheck: IntRange = 0..0
-            var boxRow: Int = 0
-            var boxColumn: Int = 0
-            when (subBoxNum) { //declares which set of three columns and rows will be compared
-                0 -> {
-                    boxRow = 1; boxColumn = 1
-                }
 
-                1 -> {
-                    boxRow = 1; boxColumn = 2
-                }
+            //subBoxNum declares which subBox is used, 0-8, left to right, top to bottom.
+            //each subBox uses a different combination of rows and columns, which is determined by the following set of code.
 
-                2 -> {
-                    boxRow = 1; boxColumn = 3
-                }
-
-                3 -> {
-                    boxRow = 2; boxColumn = 1
-                }
-
-                4 -> {
-                    boxRow = 2; boxColumn = 2
-                }
-
-                5 -> {
-                    boxRow = 2; boxColumn = 3
-                }
-
-                6 -> {
-                    boxRow = 3; boxColumn = 1
-                }
-
-                7 -> {
-                    boxRow = 3; boxColumn = 2
-                }
-
-                8 -> {
-                    boxRow = 3; boxColumn = 3
-                }
-            }
-            when (boxRow) {
-                1 -> arraysToCheck = 0..2
-                2 -> arraysToCheck = 3..5
-                3 -> arraysToCheck = 6..8
-            }
-            when (boxColumn) {
-                1 -> columnsToCheck = 0..2
-                2 -> columnsToCheck = 3..5
-                3 -> columnsToCheck = 6..8
+            val rowsToCheck: IntRange = when (subBoxNum) {
+                0, 1, 2 -> 0..2
+                3, 4, 5 -> 3..5
+                6, 7, 8 -> 6..8
+                else -> 0..0
             }
 
-            for (i in arraysToCheck) {
+            val columnsToCheck: IntRange = when (subBoxNum) {
+                0, 3, 6 -> 0..2
+                1, 4, 7 -> 3..5
+                2, 5, 8 -> 6..8
+                else -> 0..0
+            }
+
+            for (i in rowsToCheck) {
                 for (h in columnsToCheck) {
                     subBoxList.add(board[i][h])
                 }
