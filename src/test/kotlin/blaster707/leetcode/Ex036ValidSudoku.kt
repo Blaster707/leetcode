@@ -88,7 +88,7 @@ class Ex036ValidSudoku {
             }
             return true
         }
-        
+
         fun isValidSudoku(board: Array<CharArray>): Boolean {
 
             for (arrayX in board) {
