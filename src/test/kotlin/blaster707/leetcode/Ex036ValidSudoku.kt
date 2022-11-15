@@ -43,65 +43,105 @@ class Ex036ValidSudoku {
             )))
         }
 
-        fun isValidSudoku(board: Array<CharArray>): Boolean {
 
-            var subBoxArray: Array<CharArray> = arrayOf(charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf())
-            var columnArray: Array<CharArray> = arrayOf(charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf(), charArrayOf())
+        fun buildColumn(board: Array<CharArray>, columnNum: Int): List<Char> {
+            val testList = mutableListOf<Char>()
+            for (arrayC in board) {
+                testList.add(arrayC[columnNum])
+            }
+            return testList
+        }
+
+        fun checkValidity(q: List<Char>): Boolean {
+            val testList = mutableListOf<Char>()
+            for (i in q) {
+                if (i != '.')
+                    if (i in testList) {return false} else {testList.add(i)}
+            }
+            return true
+        }
+
+        fun buildSubBox(board: Array<CharArray>, subBoxNum: Int): List<Char> {
+            val subBoxList = mutableListOf<Char>()
             var arraysToCheck: IntRange = 0..0
             var columnsToCheck: IntRange = 0..0
-
-            for (subBoxNum in 0..8) {
-                var boxRow: Int = 0
-                var boxColumn: Int = 0
-                when (subBoxNum) {
-                    0 -> { boxRow = 1; boxColumn = 1 }
-                    1 -> { boxRow = 1; boxColumn = 2 }
-                    2 -> { boxRow = 1; boxColumn = 3 }
-                    3 -> { boxRow = 2; boxColumn = 1 }
-                    4 -> { boxRow = 2; boxColumn = 2 }
-                    5 -> { boxRow = 2; boxColumn = 3 }
-                    6 -> { boxRow = 3; boxColumn = 1 }
-                    7 -> { boxRow = 3; boxColumn = 2 }
-                    8 -> { boxRow = 3; boxColumn = 3 }
-                }
-                when (boxRow) {
-                    1 -> arraysToCheck = 0..2
-                    2 -> arraysToCheck = 3..5
-                    3 -> arraysToCheck = 6..8
-                }
-                when (boxColumn) {
-                    1 -> columnsToCheck = 0..2
-                    2 -> columnsToCheck = 3..5
-                    3 -> columnsToCheck = 6..8
+            var boxRow: Int = 0
+            var boxColumn: Int = 0
+            when (subBoxNum) { //declares which set of three columns and rows will be compared
+                0 -> {
+                    boxRow = 1; boxColumn = 1
                 }
 
-                for (i in arraysToCheck) {
-                    for (h in columnsToCheck) {
-                        if (board[i][h] != '.') {
-                            subBoxArray[subBoxNum] = subBoxArray[subBoxNum].plus(board[i][h])
-                        }
-                    }
+                1 -> {
+                    boxRow = 1; boxColumn = 2
+                }
+
+                2 -> {
+                    boxRow = 1; boxColumn = 3
+                }
+
+                3 -> {
+                    boxRow = 2; boxColumn = 1
+                }
+
+                4 -> {
+                    boxRow = 2; boxColumn = 2
+                }
+
+                5 -> {
+                    boxRow = 2; boxColumn = 3
+                }
+
+                6 -> {
+                    boxRow = 3; boxColumn = 1
+                }
+
+                7 -> {
+                    boxRow = 3; boxColumn = 2
+                }
+
+                8 -> {
+                    boxRow = 3; boxColumn = 3
+                }
+            }
+            when (boxRow) {
+                1 -> arraysToCheck = 0..2
+                2 -> arraysToCheck = 3..5
+                3 -> arraysToCheck = 6..8
+            }
+            when (boxColumn) {
+                1 -> columnsToCheck = 0..2
+                2 -> columnsToCheck = 3..5
+                3 -> columnsToCheck = 6..8
+            }
+
+            for (i in arraysToCheck) {
+                for (h in columnsToCheck) {
+                    subBoxList.add(board[i][h])
+                }
+            }
+            return subBoxList
+        }
+
+
+        fun isValidSudoku(board: Array<CharArray>): Boolean {
+
+            for (arrayX in board) {
+                if (!checkValidity(arrayX.toList())) { //checks rows for validity
+                    return false
                 }
             }
 
             for (columnNum in 0..8) {
-                for (arrayC in board) {
-                    if (arrayC[columnNum] != '.') {
-                        columnArray[columnNum] = columnArray[columnNum].plus(arrayC[columnNum])
-                    }
+                if (!checkValidity(buildColumn(board, columnNum))) { //builds and then checks columns for validity
+                    return false
                 }
             }
-            for (arrayX in board) {
 
-                if (arrayX.distinct().count{it != '.'} != arrayX.size-arrayX.count { it == '.' }) {return false}
-            }
-
-            for (arrayY in columnArray) {
-                if (arrayY.distinct().count() != arrayY.size) {return false}
-            }
-
-            for (arrayZ in subBoxArray) {
-                if (arrayZ.distinct().count() != arrayZ.size) {return false}
+            for (subBoxNum in 0..8) { //declares which subbox is being built, 0-8, left to right, top to bottom
+                if (!checkValidity(buildSubBox(board, subBoxNum))) { //builds and then checks subboxes for validity
+                    return false
+                }
             }
             return true
         }
