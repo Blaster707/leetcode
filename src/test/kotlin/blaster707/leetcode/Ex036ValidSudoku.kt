@@ -52,15 +52,6 @@ class Ex036ValidSudoku {
             return testList
         }
 
-        fun checkValidity(q: List<Char>): Boolean {
-            val testList = mutableListOf<Char>()
-            for (i in q) {
-                if (i != '.')
-                    if (i in testList) {return false} else {testList.add(i)}
-            }
-            return true
-        }
-
         fun buildSubBox(board: Array<CharArray>, subBoxNum: Int): List<Char> {
             val subBoxList = mutableListOf<Char>()
 
@@ -89,7 +80,15 @@ class Ex036ValidSudoku {
             return subBoxList
         }
 
-
+        fun checkValidity(q: List<Char>): Boolean {
+            val testList = mutableListOf<Char>()
+            for (i in q) {
+                if (i != '.')
+                    if (i in testList) {return false} else {testList.add(i)}
+            }
+            return true
+        }
+        
         fun isValidSudoku(board: Array<CharArray>): Boolean {
 
             for (arrayX in board) {
