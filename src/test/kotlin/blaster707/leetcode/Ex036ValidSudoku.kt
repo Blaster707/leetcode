@@ -44,15 +44,15 @@ class Ex036ValidSudoku {
         }
 
 
-        fun buildColumn(board: Array<CharArray>, columnNum: Int): List<Char> {
+        fun buildColumn(board: Array<CharArray>, columnNum: Int): Iterable<Char> {
             val testList = mutableListOf<Char>()
             for (arrayC in board) {
                 testList.add(arrayC[columnNum])
             }
-            return testList
+            return testList.asIterable()
         }
 
-        fun buildSubBox(board: Array<CharArray>, subBoxNum: Int): List<Char> {
+        fun buildSubBox(board: Array<CharArray>, subBoxNum: Int): Iterable<Char> {
             val subBoxList = mutableListOf<Char>()
 
             //subBoxNum declares which subBox is used, 0-8, left to right, top to bottom.
@@ -77,10 +77,10 @@ class Ex036ValidSudoku {
                     subBoxList.add(board[i][h])
                 }
             }
-            return subBoxList
+            return subBoxList.asIterable()
         }
 
-        fun checkValidity(q: List<Char>): Boolean {
+        fun checkValidity(q: Iterable<Char>): Boolean {
             val testList = mutableListOf<Char>()
             for (i in q) {
                 if (i != '.')
@@ -92,7 +92,7 @@ class Ex036ValidSudoku {
         fun isValidSudoku(board: Array<CharArray>): Boolean {
 
             for (arrayX in board) {
-                if (!checkValidity(arrayX.toList())) { //checks rows for validity
+                if (!checkValidity(arrayX.asIterable())) { //checks rows for validity
                     return false
                 }
             }
