@@ -43,17 +43,30 @@ class Ex036ValidSudoku {
             )))
         }
 
+        fun buildRow(array: CharArray): Iterable<Char> {
+            val rowIterable: Iterable<Char> = Iterable {
+                iterator {
+                    for (x in array) {
+                        yield(x)
+                    }
+                }
+            }
+            return rowIterable
+        }
 
         fun buildColumn(board: Array<CharArray>, columnNum: Int): Iterable<Char> {
-            val testList = mutableListOf<Char>()
-            for (arrayC in board) {
-                testList.add(arrayC[columnNum])
+            val columnIterable: Iterable<Char> = Iterable {
+                iterator {
+                   for (array in board) {
+                       yield(array[columnNum])
+                   }
+                }
             }
-            return testList.asIterable()
+            return columnIterable
+
         }
 
         fun buildSubBox(board: Array<CharArray>, subBoxNum: Int): Iterable<Char> {
-            val subBoxList = mutableListOf<Char>()
 
             //subBoxNum declares which subBox is used, 0-8, left to right, top to bottom.
             //each subBox uses a different combination of rows and columns, which is determined by the following set of code.
@@ -71,20 +84,23 @@ class Ex036ValidSudoku {
                 2, 5, 8 -> 6..8
                 else -> 0..0
             }
-
-            for (i in rowsToCheck) {
-                for (h in columnsToCheck) {
-                    subBoxList.add(board[i][h])
+            val subBoxIterable: Iterable<Char> = Iterable {
+                iterator {
+                    for (i in rowsToCheck) {
+                        for (h in columnsToCheck) {
+                            yield(board[i][h])
+                        }
+                    }
                 }
             }
-            return subBoxList.asIterable()
+            return subBoxIterable
         }
 
         fun checkValidity(q: Iterable<Char>): Boolean {
             val testList = mutableListOf<Char>()
-            for (i in q) {
-                if (i != '.')
-                    if (i in testList) {return false} else {testList.add(i)}
+            q.forEach {
+                if (it != '.') {
+                    if (it in testList) {return false} else {testList.add(it)}}
             }
             return true
         }
@@ -92,7 +108,7 @@ class Ex036ValidSudoku {
         fun isValidSudoku(board: Array<CharArray>): Boolean {
 
             for (arrayX in board) {
-                if (!checkValidity(arrayX.asIterable())) { //checks rows for validity
+                if (!checkValidity(buildRow(arrayX))) { //checks rows for validity
                     return false
                 }
             }
