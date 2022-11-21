@@ -9,7 +9,7 @@ data class ContactEntry (
     val firstName = person.firstName
     val lastName = person.lastName
     fun addressStringAll(address: Address): String {
-        return "${address.addressNumber} ${address.streetName} \n${address.city}, ${address.state} ${address.zipCode}"
+        return "${address.addressLabelString} \n${address.addressNumber} ${address.streetName} \n${address.city}, ${address.state} ${address.zipCode}"
     }
 
 
@@ -30,12 +30,14 @@ class PhoneNumber {
     var number: Long? = null
     var locationLabel: LocationLabel = LocationLabel.Other
 
+    val phoneNumberLabelString: String = "${this.locationLabel} Phone Number"
+
     fun phoneNumberBuilder(): PhoneNumber{
         val phoneNumber = PhoneNumber()
-        println("Please enter a phone number.")
-        phoneNumber.locationLabel = Builder().locationLabelBuilder()
-
+        println("Please type in the phone number you would like to add.")
         phoneNumber.number = Builder().numberBuilder()
+        println("Please set a label for this phone number.")
+        phoneNumber.locationLabel = Builder().locationLabelBuilder()
 
         return phoneNumber
     }
@@ -50,8 +52,11 @@ class Address {
     var zipCode: Int? = null
     var locationLabel: LocationLabel = LocationLabel.Other
 
+    val addressLabelString: String = "${this.locationLabel} Address"
+
     fun addressBuilder(): Address {
         val address = Address()
+        println("Please set a label for this address.")
         address.locationLabel = Builder().locationLabelBuilder()
         println("What is the house number for this address?")
         address.addressNumber = readln()
@@ -61,6 +66,7 @@ class Address {
         address.city = readln()
         println("What is the state for this address?")
         address.state = readln()
+        println("What is the zipcode for this address?")
         address.zipCode = Builder().numberBuilder().toInt()
 
         return address
@@ -77,7 +83,7 @@ enum class LocationLabel(labelString: String) {
 
 class Builder {
     fun locationLabelBuilder(): LocationLabel {
-        println("Please select a label: \n 1: Home \n 2: Mobile \n 3: Work \n 4: Other")
+        println(" 1: Home \n 2: Mobile \n 3: Work \n 4: Other")
         print ("Label Number: ")
         val labelInput = readln()
         if (labelInput != "1" && labelInput != "2" && labelInput != "3" && labelInput != "4") println("Invalid entry. Setting to \"Other\" by default.")
