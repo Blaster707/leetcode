@@ -2,33 +2,106 @@ package blaster707.experiments.contactlist
 
 data class ContactEntry (
     val person: Person,
-    val streetAddress: String?,
-    val city: String?,
-    val state: String?,
-    val zipCode: Int?){
+    val address: Address,
+    val phoneNumber: PhoneNumber,
+    ){
 
     val firstName = person.firstName
     val lastName = person.lastName
+    fun addressStringAll(address: Address): String {
+        return "${address.addressNumber} ${address.streetName} \n${address.city}, ${address.state} ${address.zipCode}"
+    }
 
 
 }
 
-interface PhoneNumber{
-    fun numberType(numberTypeInput: String): String
+fun contactEntryBuilder(): ContactEntry {
+
+    val contactPerson = PersonBuilder().getPersonInput()
+    val address: Address = Address().addressBuilder()
+    val phoneNumber: PhoneNumber = PhoneNumber().phoneNumberBuilder()
+
+    return ContactEntry(contactPerson, address, phoneNumber)
+
 }
 
-class MobileNumber(val number: Long): PhoneNumber {
-    val numberType = "Mobile"
+class PhoneNumber {
+
+    var number: Long? = null
+    var locationLabel: LocationLabel = LocationLabel.Other
+
+    fun phoneNumberBuilder(): PhoneNumber{
+        val phoneNumber = PhoneNumber()
+        println("Please enter a phone number.")
+        phoneNumber.locationLabel = Builder().locationLabelBuilder()
+
+        phoneNumber.number = Builder().numberBuilder()
+
+        return phoneNumber
+    }
+
 }
 
-data class HomeNumber(val number: Long): PhoneNumber {
-    val numberType = "Home"
+class Address {
+    var addressNumber: String? = null
+    var streetName: String? = null
+    var city: String? = null
+    var state: String? = null
+    var zipCode: Int? = null
+    var locationLabel: LocationLabel = LocationLabel.Other
+
+    fun addressBuilder(): Address {
+        val address = Address()
+        address.locationLabel = Builder().locationLabelBuilder()
+        println("What is the house number for this address?")
+        address.addressNumber = readln()
+        println("What is the street name for this address?")
+        address.streetName = readln()
+        println("What is the city for this address?")
+        address.city = readln()
+        println("What is the state for this address?")
+        address.state = readln()
+        address.zipCode = Builder().numberBuilder().toInt()
+
+        return address
+    }
 }
 
-data class WorkNumber(val number: Long): PhoneNumber {
-    val numberType = "Work"
+enum class LocationLabel(labelString: String) {
+    Home("Home"),
+    Mobile("Mobile"),
+    Work("Work"),
+    Other("Other");
+
 }
 
-data class OtherNumber(val number: Long): PhoneNumber {
-    val numberType = "Other"
+class Builder {
+    fun locationLabelBuilder(): LocationLabel {
+        println("Please select a label: \n 1: Home \n 2: Mobile \n 3: Work \n 4: Other")
+        print ("Label Number: ")
+        val labelInput = readln()
+        if (labelInput != "1" && labelInput != "2" && labelInput != "3" && labelInput != "4") println("Invalid entry. Setting to \"Other\" by default.")
+        return when(labelInput) {
+            "1" -> LocationLabel.Home
+            "2" -> LocationLabel.Mobile
+            "3" -> LocationLabel.Work
+            else -> LocationLabel.Other
+        }
+    }
+
+    fun numberBuilder(): Long {
+        println("Enter only digits - do not enter any symbols, letters, dashes or spaces.")
+        val numberInput = readln()
+        return if (numberInput.all { char -> char.isDigit() }) {
+            numberInput.toLong()
+        } else {
+            println("Invalid entry.  Would you like to try again?")
+            print("Y/N: ")
+            when (readln()) {
+                "Y", "y" -> numberBuilder()
+                else -> {println("Setting this value to 0 by default."); 0
+                }
+            }
+        }
+    }
 }
