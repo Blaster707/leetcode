@@ -6,6 +6,76 @@ class Ex036ValidSudoku {
 
     class Solution {
 
+        class Board(internal val contents: Array<CharArray>){
+
+            fun checkValidity(segment: Segment): Boolean {
+                val testList = mutableListOf<Char>()
+                segment.digits(this).forEach {
+                    if (it != '.') {
+                        if (it in testList) {return false} else {testList.add(it)}}
+                }
+                return true
+            }
+
+            fun isValidSudoku(): Boolean{
+                for (segment in segments) {
+                    if (!checkValidity(segment)) {
+                        return false
+                    }
+                }
+                return true
+            }
+
+            val segments: Iterable<Segment> = Iterable {
+                iterator {
+                    yieldAll(rows)
+                    yieldAll(columns)
+                    yieldAll(subBoxes)
+                }
+            }
+
+            val rows: Iterable<Row> = (0..8).map(::Row)
+            val columns: Iterable<Column> = (0..8).map(::Column)
+            val subBoxes: Iterable<SubBox> = (0..8).map(::SubBox)
+
+        }
+
+        interface Segment{
+            fun digits(board: Board): Iterable<Char>
+        }
+
+        class Row(val num: Int): Segment{
+            override fun digits(board: Board): Iterable<Char> {
+                return board.contents[num].asIterable()
+            }
+        }
+
+        class Column(val num: Int): Segment{
+            override fun digits(board: Board): Iterable<Char>{
+                return board.contents.map { it[num] }
+            }
+        }
+
+        class SubBox(val num: Int): Segment{
+
+            val rowsToCheck: IntRange = when (num) {
+                0, 1, 2 -> 0..2
+                3, 4, 5 -> 3..5
+                6, 7, 8 -> 6..8
+                else -> 0..0
+            }
+
+            val columnsToCheck: IntRange = when (num) {
+                0, 3, 6 -> 0..2
+                1, 4, 7 -> 3..5
+                2, 5, 8 -> 6..8
+                else -> 0..0
+            }
+            override fun digits(board: Board): Iterable<Char>{
+                return rowsToCheck.flatMap { r -> columnsToCheck.map { c -> board.contents[r][c] } }
+            }
+        }
+
         @Test
         fun solution(){
             assert(isValidSudoku(arrayOf(
@@ -43,72 +113,6 @@ class Ex036ValidSudoku {
             )))
         }
 
-
-        fun buildColumn(board: Array<CharArray>, columnNum: Int): Iterable<Char> {
-            val testList = mutableListOf<Char>()
-            for (arrayC in board) {
-                testList.add(arrayC[columnNum])
-            }
-            return testList.asIterable()
-        }
-
-        fun buildSubBox(board: Array<CharArray>, subBoxNum: Int): Iterable<Char> {
-            val subBoxList = mutableListOf<Char>()
-
-            //subBoxNum declares which subBox is used, 0-8, left to right, top to bottom.
-            //each subBox uses a different combination of rows and columns, which is determined by the following set of code.
-
-            val rowsToCheck: IntRange = when (subBoxNum) {
-                0, 1, 2 -> 0..2
-                3, 4, 5 -> 3..5
-                6, 7, 8 -> 6..8
-                else -> 0..0
-            }
-
-            val columnsToCheck: IntRange = when (subBoxNum) {
-                0, 3, 6 -> 0..2
-                1, 4, 7 -> 3..5
-                2, 5, 8 -> 6..8
-                else -> 0..0
-            }
-
-            for (i in rowsToCheck) {
-                for (h in columnsToCheck) {
-                    subBoxList.add(board[i][h])
-                }
-            }
-            return subBoxList.asIterable()
-        }
-
-        fun checkValidity(q: Iterable<Char>): Boolean {
-            val testList = mutableListOf<Char>()
-            for (i in q) {
-                if (i != '.')
-                    if (i in testList) {return false} else {testList.add(i)}
-            }
-            return true
-        }
-
-        fun isValidSudoku(board: Array<CharArray>): Boolean {
-
-            for (arrayX in board) {
-                if (!checkValidity(arrayX.asIterable())) { //checks rows for validity
-                    return false
-                }
-            }
-
-            for (columnNum in 0..8) {
-                if (!checkValidity(buildColumn(board, columnNum))) { //builds and then checks columns for validity
-                    return false
-                }
-            }
-
-            for (subBoxNum in 0..8) { //declares which subbox is being built, 0-8, left to right, top to bottom
-                if (!checkValidity(buildSubBox(board, subBoxNum))) { //builds and then checks subboxes for validity
-                    return false
-                }
-            }
-            return true
-        }
+        fun isValidSudoku(board: Array<CharArray>) = Board(board).isValidSudoku()
     }
 }
