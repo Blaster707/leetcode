@@ -10,3 +10,7 @@ package blaster707.experiments.contactlist
         }
         println(contactEntryX.addressStringAll(contactEntryX.addressList))
     }
+
+open class ContactList(array: Array<ContactEntry>) {
+
+}

@@ -15,8 +15,6 @@ data class ContactEntry (
     }
 }
 
-
-
 fun contactEntryBuilder(): ContactEntry {
 
     val contactPerson = PersonBuilder().getPersonInput()

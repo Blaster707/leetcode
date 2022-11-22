@@ -2,36 +2,24 @@ package blaster707.experiments.contactlist
 
 class ContactListInteractions {
 
-    class AddContactEntry {
+    class Search {
 
     }
 
-    class AddAddress {
+    class AddField {
 
     }
 
-    class AddPhoneNumber {
+    class EditField {
 
     }
 
-    class EditAddress {
+    class DeleteField {
 
     }
 
-    class EditPhoneNumber {
-
-    }
-
-    class EditName {
-
-    }
-
-    class DeleteAddress {
-
-    }
-
-    class DeletePhoneNumber {
-
+    class AddContactEntry(array: Array<ContactEntry>): ContactList(array) {
+        
     }
 
     class DeleteContactEntry {
