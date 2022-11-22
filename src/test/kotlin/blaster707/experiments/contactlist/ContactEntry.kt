@@ -2,26 +2,28 @@ package blaster707.experiments.contactlist
 
 data class ContactEntry (
     val person: Person,
-    val address: Address,
-    val phoneNumber: PhoneNumber,
+    val addressList: List<Address> = mutableListOf(),
+    val phoneNumberList: List<PhoneNumber> = mutableListOf()
     ){
 
     val firstName = person.firstName
     val lastName = person.lastName
-    fun addressStringAll(address: Address): String {
-        return "${address.addressLabelString} \n${address.addressNumber} ${address.streetName} \n${address.city}, ${address.state} ${address.zipCode}"
+    fun addressStringAll(addressList: List<Address>): String {
+        var result = ""
+        for (addressX in addressList) result = result.plus("${addressX.addressLabelString()} \n${addressX.addressNumber} ${addressX.streetName} \n${addressX.city}, ${addressX.state} ${addressX.zipCode}\n")
+        return result
     }
-
-
 }
+
+
 
 fun contactEntryBuilder(): ContactEntry {
 
     val contactPerson = PersonBuilder().getPersonInput()
-    val address: Address = Address().addressBuilder()
-    val phoneNumber: PhoneNumber = PhoneNumber().phoneNumberBuilder()
+    val addressList = mutableListOf(Address().addressBuilder())
+    val phoneNumberList = mutableListOf(PhoneNumber().phoneNumberBuilder())
 
-    return ContactEntry(contactPerson, address, phoneNumber)
+    return ContactEntry(contactPerson, addressList, phoneNumberList)
 
 }
 
@@ -30,7 +32,7 @@ class PhoneNumber {
     var number: Long? = null
     var locationLabel: LocationLabel = LocationLabel.Other
 
-    val phoneNumberLabelString: String = "${this.locationLabel} Phone Number"
+    fun phoneNumberLabelString(): String { return "${this.locationLabel} Phone Number" }
 
     fun phoneNumberBuilder(): PhoneNumber{
         val phoneNumber = PhoneNumber()
@@ -52,10 +54,11 @@ class Address {
     var zipCode: Int? = null
     var locationLabel: LocationLabel = LocationLabel.Other
 
-    val addressLabelString: String = "${this.locationLabel} Address"
+    fun addressLabelString(): String {return "${this.locationLabel} Address"}
 
     fun addressBuilder(): Address {
         val address = Address()
+        println("You will now add an address for this contact entry.")
         println("Please set a label for this address.")
         address.locationLabel = Builder().locationLabelBuilder()
         println("What is the house number for this address?")
