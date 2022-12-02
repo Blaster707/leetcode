@@ -1,6 +1,6 @@
 # LeetCode Exercises
 
-This repo is where I created solution to different LeetCode exercises.  Starting with Easy problems and progressing into more 
+This repo is where I created solutions to different LeetCode exercises.  Starting with Easy problems and progressing into more 
 challenging ones, I was able to build my skillset and practice data structures and algorithms.  This also allowed me to get
 a good handle on the basic library for Kotlin, alongside utilizing Junit tests for practice and speedier confirmation of solutions.
 
